@@ -29,7 +29,7 @@ export class SearchApiService {
       catchError(error => {
         // throw new Error(error)
         console.error('(SearchApiService) query not found');
-        return of({ query: '(query not found)', hits: [] } as QueryResult);
+        return of({ query: '(query not found)', nbHits: -1, hits: [] } as QueryResult);
       })
     )
   }
@@ -37,6 +37,7 @@ export class SearchApiService {
   private parseQueryResult(obj: any): QueryResult {
     const queryResult: QueryResult = {
       query: obj.query,
+      nbHits: obj.nbHits,
       hits: [],
     };
     return queryResult;
