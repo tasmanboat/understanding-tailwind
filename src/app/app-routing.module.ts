@@ -8,12 +8,12 @@ import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/
 import { PeakComponent } from 'src/app/shared/components/peak/peak.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'hn', pathMatch: 'full' },
+  // { path: '', redirectTo: 'hn', pathMatch: 'full' },
   {
     path: '',
     component: LayoutAppComponent,
     children: [
-      { path: 'hn', loadChildren: () => import('src/app/hn/hn.module').then(m => m.HnModule) },
+      { path: '', loadChildren: () => import('src/app/hn/hn.module').then(m => m.HnModule) },
     ]
   },
   {
