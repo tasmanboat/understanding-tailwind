@@ -45,6 +45,7 @@ export class SearchHistoryService {
 // #region load data from local storage
   private async load() {
     // await this.pss.removeItemAsync('hn-search-history');
+    this.searchHistory$.next([]);
     const data = await this.pss.getItemAsync('hn-search-history') as string | null;
     this.searchHistory = data ? JSON.parse(data) : [];
     // this.searchHistory = data ? JSON.parse(data) : SEARCH_HISTORY;
