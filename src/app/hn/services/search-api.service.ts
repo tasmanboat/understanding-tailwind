@@ -12,10 +12,12 @@ export class SearchApiService {
 
   constructor(private http: HttpClient) { }
 
-  getQueryResult(keyword: string = 'today', page: number = 0): Observable<QueryResult> {
+  getQueryResult(keyword: string = 'today'): Observable<QueryResult> {
     // https://hn.algolia.com/api/v1/search?query=today
     // https://hn.algolia.com/api/v1/search?query=today&page=2
-    const url = `https://hn.algolia.com/api/v1/search?query=${keyword}&page=${page}`;
+    // https://hn.algolia.com/api/v1/search?query=freestyle&page=3#这里有 title 为 null 的 hit 了
+    // https://hn.algolia.com/api/v1/search?query=freestyle&hitsPerPage=500#先拿到 500 hit 再过滤掉 title 为 null 的 hit
+    const url = `https://hn.algolia.com/api/v1/search?query=${keyword}&hitsPerPage=${HITS_PER_PAGE}&page=0`;
     return this.http.get<QueryResult>(url).pipe(
       tap(res => {
         // console.log((res as any)?.query);
@@ -46,7 +48,7 @@ export class SearchApiService {
   private getHits(arr: any): Hit[] {
     let hits: Hit[] = [];
     arr.forEach((item: any) => {
-      if (item !== undefined && item.created_at_i !== undefined) {
+      if (item !== undefined && item.title && item.url) {
         const obj: Hit = {
           title: item.title,
           url: item.url,
@@ -61,3 +63,5 @@ export class SearchApiService {
   }
 
 }
+
+const HITS_PER_PAGE = 500;
