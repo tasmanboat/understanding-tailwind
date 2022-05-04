@@ -110,6 +110,14 @@ write page data into route param
   }
 // #endregion
 
+// #region clear search history
+  clearSearchHistory() {
+    if (window.confirm('Are you sure you want to clear search history?')) {
+      this.searchHistoryService.clearSearchHistory();
+    }
+  }
+// #endregion
+
 }
 
 type Sorting = 'pointDes' | 'timeDes' | 'timeAsc' | 'pointAsc';
