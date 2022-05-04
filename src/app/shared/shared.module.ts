@@ -11,6 +11,7 @@ import { DecodeHTMLEntitiesPipe } from './pipes/decode-html-entities.pipe';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PeakComponent } from './components/peak/peak.component';
 
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { PeakComponent } from './components/peak/peak.component';
   ],
   exports: [
     FormsModule, ReactiveFormsModule,
+    NgxPaginationModule,
 
     DateAgoPipe,
     DecodeHTMLEntitiesPipe,

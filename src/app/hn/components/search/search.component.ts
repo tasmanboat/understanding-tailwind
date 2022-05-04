@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
     if (keyword && keyword.trim()) {
       this.keyword = keyword;
       this.searchHistoryService.addSearchHistory(keyword.trim());
-      this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim(), 0);
+      this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
       this.router.navigate(['search'], { queryParams: { keyword: keyword.trim() }});
     } else {
       console.log(`(HomeComponent) nothing to do`)
@@ -45,12 +45,25 @@ export class SearchComponent implements OnInit {
 
 // #region load the component when page refreshes, handling route param
   ngOnInit(): void {
-    const keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
-    const page = this.route.snapshot.queryParamMap.get('page') ?? '0';
-    this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim(), +page);
-    this.keyword = keyword;
+    this.keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
+    this.page = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
+    this.queryResult$ = this.searchApiService.getQueryResult(this.keyword.trim());
+    console.log(`(SearchComponent) ngOnInit`);
   }
   keyword: string = '';
+// #endregion
+
+// #region pagination
+/*
+write page data into route param
+*/
+  // page: number = 1;
+  set page(page: number) {
+    this._page = page;
+    this.router.navigate(['search'], { queryParams: { keyword: this.keyword.trim(), page: this.page }});
+  }
+  get page(): number { return this._page }
+  private _page: number = 1;
 // #endregion
 
 }

@@ -20,9 +20,10 @@
     <div *ngIf="queryResult$ | async as queryResult; else loading">
       <div class="grid grid-cols-1 divide-y divide-yellow-500">
         <div class="my-4 mx-4"><p class="font-serif italic">{{ queryResult.nbHits }} hits found for {{ keyword }}</p></div>
-        <ng-container *ngFor="let hit of queryResult.hits; trackBy: trackById;">
-          <app-hit *ngIf="hit.title" [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
+        <ng-container *ngFor="let hit of queryResult.hits | paginate: { itemsPerPage: 10, currentPage: page }; trackBy: trackById; index as i">
+          <app-hit [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
         </ng-container>
+        <div class="pt-4 text-center"><pagination-controls (pageChange)="page=$event"></pagination-controls></div>
       </div>
     </div>
   </div>
