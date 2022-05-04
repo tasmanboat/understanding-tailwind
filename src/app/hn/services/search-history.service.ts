@@ -10,16 +10,18 @@ import { PersistentStorageService } from 'src/app/core/services/persistent-stora
 })
 export class SearchHistoryService {
 
-  private searchHistory: HistoryItem[] = [];
+  private searchHistory: HistoryItem[] = SEARCH_HISTORY;
   private searchHistory$: BehaviorSubject<HistoryItem[]> = new BehaviorSubject<HistoryItem[]>(this.searchHistory);
   constructor(private pss: PersistentStorageService) {
-    this.searchHistory = SEARCH_HISTORY;
   }
 
   addSearchHistory(keyword: string): void {
-    const id = Math.max(...this.searchHistory.map(i => i.id)) + 1;
-    this.searchHistory.push({ id, keyword } as HistoryItem);
-    this.performSideEffect();
+    const keywords = this.searchHistory.map(i => i.keyword);
+    if (!keywords.includes(keyword)) {
+      const id = Math.max(...this.searchHistory.map(i => i.id)) + 1;
+      this.searchHistory.push({ id, keyword } as HistoryItem);
+      this.performSideEffect();
+    }
   }
 
   clearSearchHistory(): void {
