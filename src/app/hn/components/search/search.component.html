@@ -20,9 +20,9 @@
     <div *ngIf="queryResult$ | async as queryResult; else loading">
       <div class="grid grid-cols-1 divide-y divide-yellow-500">
         <div class="my-4 mx-4"><p class="font-serif italic">{{ queryResult.nbHits }} hits found for {{ keyword }}</p></div>
-        <div *ngFor="let hit of queryResult.hits; trackBy: trackById;">
-          <app-hit [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
-        </div>
+        <ng-container *ngFor="let hit of queryResult.hits; trackBy: trackById;">
+          <app-hit *ngIf="hit.title" [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
+        </ng-container>
       </div>
     </div>
   </div>
