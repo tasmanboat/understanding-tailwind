@@ -7,6 +7,8 @@ import { LayoutDefaultComponent } from './layout/layouts/layout-default/layout-d
 import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
 import { PeakComponent } from 'src/app/shared/components/peak/peak.component';
 
+import { SearchBarComponent } from 'src/app/hn/components/search-bar/search-bar.component';
+
 const routes: Routes = [
   // { path: '', redirectTo: 'hn', pathMatch: 'full' },
   {
@@ -21,6 +23,7 @@ const routes: Routes = [
     component: LayoutDefaultComponent,
     children: [
       { path: 'peak', component: PeakComponent },
+      { path: 'preview-search-bar', component: SearchBarComponent },
       { path: '**', component: PageNotFoundComponent },  // 希望 pnf 也运用 layout
     ]
   },
