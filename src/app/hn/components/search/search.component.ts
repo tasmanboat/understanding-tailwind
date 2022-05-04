@@ -6,6 +6,7 @@ import { Hit } from '../../interfaces/hit';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { SearchHistoryService } from '../../services/search-history.service';
 
 @Component({
   selector: 'app-search',
@@ -19,14 +20,20 @@ export class SearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private service: SearchApiService,
+    private searchApiService: SearchApiService,
+    private searchHistoryService: SearchHistoryService,
   ) { }
 
 // #region handle search bar event, open the first page of query result
   onSearched(keyword: string) {
-    this.keyword = keyword;
-    this.queryResult$ = this.service.getQueryResult(keyword, 0);
-    this.router.navigate(['search'], { queryParams: { keyword: keyword }});
+    if (keyword && keyword.trim()) {
+      this.keyword = keyword;
+      this.searchHistoryService.addSearchHistory(keyword.trim());
+      this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim(), 0);
+      this.router.navigate(['search'], { queryParams: { keyword: keyword.trim() }});
+    } else {
+      console.log(`(HomeComponent) nothing to do`)
+    }
   }
 // #endregion
 
@@ -40,7 +47,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     const keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
     const page = this.route.snapshot.queryParamMap.get('page') ?? '0';
-    this.queryResult$ = this.service.getQueryResult(keyword, +page);
+    this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim(), +page);
     this.keyword = keyword;
   }
   keyword: string = '';
