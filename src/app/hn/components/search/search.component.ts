@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap, map, switchMap } from 'rxjs/operators';
 import { SearchApiService } from '../../services/search-api.service';
 import { QueryResult } from '../../interfaces/query-result';
 import { Hit } from '../../interfaces/hit';
@@ -29,7 +30,8 @@ export class SearchComponent implements OnInit {
     if (keyword && keyword.trim()) {
       this.keyword = keyword;
       this.searchHistoryService.addSearchHistory(keyword.trim());
-      this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
+      // this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
+      this.getQueryResult(this.keyword);
       this.router.navigate(['search'], { queryParams: { keyword: keyword.trim() }});
     } else {
       console.log(`(HomeComponent) nothing to do`)
@@ -47,7 +49,8 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
     this.page = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
-    this.queryResult$ = this.searchApiService.getQueryResult(this.keyword.trim());
+    // this.queryResult$ = this.searchApiService.getQueryResult(this.keyword.trim());
+    this.getQueryResult(this.keyword);
     console.log(`(SearchComponent) ngOnInit`);
   }
   keyword: string = '';
@@ -66,4 +69,47 @@ write page data into route param
   private _page: number = 1;
 // #endregion
 
+// #region sorting
+// an event will trigger sorting of query result
+  // private sorting: Sorting = 'pointDes';
+  private sorting$: BehaviorSubject<Sorting> = new BehaviorSubject<Sorting>('pointDes');
+  updateSorting(e: any) {
+    // console.log((e.target as HTMLSelectElement)?.value);
+    console.log(e.target.value);
+    this.sorting$.next(e.target.value as Sorting);
+  }
+  private getQueryResult(keyword: string) {
+    // this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
+    this.queryResult$ = this.sorting$.pipe(
+      switchMap((sorting: Sorting) => {
+        return this.searchApiService.getQueryResult(keyword.trim()).pipe(
+          map((qr: QueryResult) => {
+            console.log(`sorting ...`);
+            switch(sorting) {
+              // 'pointDes' | 'timeDes' | 'timeAsc' | 'pointAsc'
+              case 'pointDes':
+                qr.hits.sort((a,b) => b.points - a.points);
+                break;
+              case 'timeDes':
+                qr.hits.sort((a,b) => b.created_at_i - a.created_at_i);
+                break;
+              case 'timeAsc':
+                qr.hits.sort((a,b) => a.created_at_i - b.created_at_i);
+                break;
+              case 'pointAsc':
+                qr.hits.sort((a,b) => a.points - b.points);
+                break;
+              default:
+                break;
+            }
+            return qr;
+          })
+        )
+      })
+    );
+  }
+// #endregion
+
 }
+
+type Sorting = 'pointDes' | 'timeDes' | 'timeAsc' | 'pointAsc';
