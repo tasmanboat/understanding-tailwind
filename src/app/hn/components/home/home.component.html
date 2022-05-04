@@ -9,6 +9,6 @@
 <div class="bg-slate-500 h-full grid">
   <div class="w-[100vw] sm:w-[640px] place-self-center">
     <h1 class="text-5xl font-bold text-center mb-4 -mt-24">hn search</h1>
-    <div class="mx-4"><app-search-bar></app-search-bar></div>
+    <div class="mx-4"><app-search-bar (searched)="onSearched($event)" keyword=""></app-search-bar></div>
   </div>
 </div>

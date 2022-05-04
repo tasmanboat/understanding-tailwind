@@ -9,11 +9,25 @@
   <div>search result ...</div>
 </div>
 -->
-<div class="bg-slate-500 h-full flex flex-col gap-4">
-  <div class="w-[100vw] sm:w-[640px] place-self-center">
-    <h4 class="text-3xl font-bold text-center my-2">hn search</h4>
-    <div class="mx-4"><app-search-bar></app-search-bar></div>
+<div class="bg-slate-500 h-full flex flex-col gap-4 py-4">
+  <div class="w-[90vw] sm:w-[590px] place-self-center">
+    <h4 class="text-3xl font-bold text-center my-2">
+      <a [routerLink]="['/']">hn search</a>
+    </h4>
+    <div class="mx-4"><app-search-bar (searched)="onSearched($event)" [keyword]="keyword"></app-search-bar></div>
   </div>
-  <div class="mx-4 flex-auto bg-yellow-200">search result ...</div>
-  <div></div>
+  <div class="mx-4 flex-auto bg-white">
+    <div *ngIf="queryResult$ | async as queryResult; else loading">
+      <div class="grid grid-cols-1 divide-y divide-yellow-500">
+        <div class="my-4 mx-4"><p class="font-serif italic">{{ queryResult.nbHits }} hits found for {{ keyword }}</p></div>
+        <div *ngFor="let hit of queryResult.hits; trackBy: trackById;">
+          <app-hit [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #loading>
+  <div class="my-4 mx-4"><p class="font-serif italic">loading ...</p></div>
+</ng-template>

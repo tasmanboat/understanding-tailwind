@@ -12,7 +12,7 @@ export class SearchApiService {
 
   constructor(private http: HttpClient) { }
 
-  getQueryResult(keyword: string, page: number = 0): Observable<QueryResult> {
+  getQueryResult(keyword: string = 'today', page: number = 0): Observable<QueryResult> {
     // https://hn.algolia.com/api/v1/search?query=today
     // https://hn.algolia.com/api/v1/search?query=today&page=2
     const url = `https://hn.algolia.com/api/v1/search?query=${keyword}&page=${page}`;
