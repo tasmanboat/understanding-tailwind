@@ -34,7 +34,8 @@ export class PersistentStorageService {
       setTimeout(() => {
         const value = this.localStorage.getItem(key) as string | null;
         resolve(value)
-      }, 1000)
+      // }, 1000)
+      }, 0)
     })
   }
   private setItem(key: string, value: string) {
@@ -42,7 +43,8 @@ export class PersistentStorageService {
       setTimeout(() => {
         this.localStorage.setItem(key, value)
         resolve(undefined)
-      }, 1000)
+      // }, 1000)
+      }, 0)
     })
   }
   private removeItem(key: string) {
