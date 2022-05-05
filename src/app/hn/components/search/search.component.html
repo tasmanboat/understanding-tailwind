@@ -39,7 +39,7 @@
                 <div class="form-control">
                   <label class="label cursor-pointer">
                     <span class="text-sm font-bold ml-3">{{ 'dark mode' | uppercase }} 🌗</span>
-                    <input type="checkbox" class="toggle" (change)="updateTheme($event)" [checked]="(theme$ | async)?.theme === 'dark'">
+                    <input type="checkbox" class="toggle toggle-md" (change)="updateTheme($event)" [checked]="(theme$ | async)?.theme === 'dark'">
                   </label>
                 </div>
               </li>

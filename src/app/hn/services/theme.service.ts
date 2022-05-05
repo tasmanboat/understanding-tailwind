@@ -43,6 +43,7 @@ export class ThemeService {
       const theme: Theme = { theme: 'dark', bgColor1: 'bg-slate-400', bgColor2: 'bg-slate-300' };
       this.theme$.next(theme);
     }
+    this.performSideEffect();
   }
 // #endregion
 
