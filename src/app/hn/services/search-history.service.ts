@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map, tap, first, delay } from 'rxjs/operators';
-import { HistoryItem } from "src/app/hn/interfaces/history-item";
-import { SEARCH_HISTORY } from "src/app/hn/services/mock-search-history";
+import { HistoryItem } from 'src/app/hn/interfaces/history-item';
+import { SEARCH_HISTORY } from 'src/app/hn/services/mock-search-history';
 import { PersistentStorageService } from 'src/app/core/services/persistent-storage.service';
 
 @Injectable({
@@ -38,15 +38,15 @@ export class SearchHistoryService {
   private performSideEffect(): void {
     // side effect
     this.getSearchHistory().pipe(first()).subscribe(data => {
-      this.pss.setItemAsync('hn-search-history', JSON.stringify(data)); // not block
+      this.pss.setItemAsync("hn-search-history", JSON.stringify(data)); // not block
     })
   }
 
 // #region load data from local storage
   private async load() {
-    // await this.pss.removeItemAsync('hn-search-history');
+    // await this.pss.removeItemAsync("hn-search-history");
     this.searchHistory$.next([]);
-    const data = await this.pss.getItemAsync('hn-search-history') as string | null;
+    const data = await this.pss.getItemAsync("hn-search-history") as string | null;
     this.searchHistory = data ? JSON.parse(data) : [];
     // this.searchHistory = data ? JSON.parse(data) : SEARCH_HISTORY;
     this.searchHistory$.next(this.searchHistory);
