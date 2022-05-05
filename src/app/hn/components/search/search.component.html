@@ -10,13 +10,13 @@
 </div>
 -->
 <div class="bg-slate-200 h-full flex flex-col gap-4 py-4">
-  <div class="w-[90vw] sm:w-[590px] place-self-center">
+  <div id="search-bar" class="w-[90vw] sm:w-[590px] place-self-center">
     <h4 class="text-3xl font-bold text-center my-2">
       <a [routerLink]="['..']">hn search</a>
     </h4>
     <div class="mx-4"><app-search-bar (searched)="onSearched($event)" [keyword]="keyword"></app-search-bar></div>
   </div>
-  <div class="mx-4 flex-auto bg-white">
+  <div id="query-result" class="mx-4 flex-auto bg-white">
     <div *ngIf="queryResult$ | async as queryResult; else loading">
       <div class="grid grid-cols-1 divide-y divide-yellow-500">
         <div class="my-4 mx-4 flex">
@@ -30,7 +30,7 @@
             <option value="pointAsc">pointAsc</option>
           </select>
           <!-- <button class="btn btn-ghost" title="clear search history" (click)="clearSearchHistory()"><i class="material-icons">clear_all</i></button> -->
-          <div class="dropdown dropdown-end">
+          <div class="dropdown dropdown-end ml-4">
             <label tabindex="0" class="btn btn-ghost"><i class="material-icons">tune</i></label>
             <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80">
               <li><button class="btn btn-ghost" (click)="clearSearchHistory()">clear search history 🗑️</button></li>

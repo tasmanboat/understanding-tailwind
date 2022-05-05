@@ -1,6 +1,6 @@
 <div class="flex flex-row my-4">
-  <div class="shrink-0 w-14 min-w-fit text-center pt-2"><p class="font-serif font-bold">{{ points }}</p></div>
-  <div class="flex-auto">
+  <div id="points" class="shrink-0 w-14 min-w-fit text-center pt-2"><p class="font-serif font-bold">{{ points }}</p></div>
+  <div id="content" class="flex-auto">
     <h4 class="font-serif text-lg"><a [href]="url" target="_blank" rel="noreferrer noopener nofollow">{{ title }}</a></h4>
     <p class="font-serif text-sm">{{ created_at_i+'000' | dateAgo }}</p>
   </div>
