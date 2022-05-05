@@ -29,7 +29,14 @@
             <option value="timeAsc">timeAsc</option>
             <option value="pointAsc">pointAsc</option>
           </select>
-          <button class="btn btn-ghost" title="clear search history" (click)="clearSearchHistory()"><i class="material-icons">clear_all</i></button>
+          <!-- <button class="btn btn-ghost" title="clear search history" (click)="clearSearchHistory()"><i class="material-icons">clear_all</i></button> -->
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost"><i class="material-icons">tune</i></label>
+            <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80">
+              <li><button class="btn btn-ghost" (click)="clearSearchHistory()">clear search history 🗑️</button></li>
+              <li><button class="btn btn-ghost" [routerLink]="['..', 'about']">about ✨</button></li>
+            </ul>
+          </div>
         </div>
         <ng-container *ngFor="let hit of queryResult.hits | paginate: { itemsPerPage: 10, currentPage: page }; trackBy: trackById; index as i">
           <app-hit [title]="hit.title" [points]="hit.points" [url]="hit.url" [created_at_i]="hit.created_at_i"></app-hit>
