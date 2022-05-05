@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { ThemeService } from '../../services/theme.service';
+import { Theme } from '../../interfaces/theme';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -16,6 +20,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private location: Location,
     private searchHistoryService: SearchHistoryService,
+    private themeService: ThemeService,
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +38,10 @@ export class HomeComponent implements OnInit {
       console.log(`(HomeComponent) nothing to do`)
     }
   }
+// #endregion
+
+// #region theme
+  theme$: Observable<Theme> = this.themeService.getTheme();
 // #endregion
 
 }

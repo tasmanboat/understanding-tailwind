@@ -14,7 +14,7 @@
   </div>
 </div>
 -->
-<div class="bg-slate-200 h-full grid grid-cols-1">
+<div class="h-full grid grid-cols-1" [ngClass]="(theme$ | async)?.bgColor1!">
   <div class="w-[100vw] sm:w-[640px] place-self-center -mt-24">
     <h1 class="text-5xl font-bold text-center mb-4">hn search</h1>
     <div class="mx-4"><app-search-bar (searched)="onSearched($event)" keyword=""></app-search-bar></div>

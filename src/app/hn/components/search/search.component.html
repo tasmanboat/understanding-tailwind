@@ -9,14 +9,14 @@
   <div>search result ...</div>
 </div>
 -->
-<div class="bg-slate-200 h-full flex flex-col gap-4 py-4">
+<div class="h-full flex flex-col gap-4 py-4" [ngClass]="(theme$ | async)?.bgColor1!">
   <div id="search-bar" class="w-[90vw] sm:w-[590px] place-self-center">
     <h4 class="text-3xl font-bold text-center my-2">
       <a [routerLink]="['..']">hn search</a>
     </h4>
     <div class="mx-4"><app-search-bar (searched)="onSearched($event)" [keyword]="keyword"></app-search-bar></div>
   </div>
-  <div id="query-result" class="mx-4 flex-auto bg-white">
+  <div id="query-result" class="mx-4 flex-auto" [ngClass]="(theme$ | async)?.bgColor2!">
     <div *ngIf="queryResult$ | async as queryResult; else loading">
       <div class="grid grid-cols-1 divide-y divide-yellow-500">
         <div class="my-4 mx-4 flex">
@@ -35,6 +35,14 @@
             <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80">
               <li><button class="btn btn-ghost" (click)="clearSearchHistory()">clear search history 🗑️</button></li>
               <li><button class="btn btn-ghost" [routerLink]="['..', 'about']">about ✨</button></li>
+              <li id="theme">
+                <div class="form-control">
+                  <label class="label cursor-pointer">
+                    <span class="text-sm font-bold ml-3">{{ 'dark mode' | uppercase }} 🌗</span>
+                    <input type="checkbox" class="toggle" (change)="updateTheme($event)" [checked]="(theme$ | async)?.theme === 'dark'">
+                  </label>
+                </div>
+              </li>
             </ul>
           </div>
         </div>

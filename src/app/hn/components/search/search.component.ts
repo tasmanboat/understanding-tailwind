@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { tap, map, switchMap, first } from 'rxjs/operators';
 import { SearchApiService } from '../../services/search-api.service';
 import { QueryResult } from '../../interfaces/query-result';
 import { Hit } from '../../interfaces/hit';
+
+import { ThemeService } from '../../services/theme.service';
+import { Theme } from '../../interfaces/theme';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -23,6 +26,7 @@ export class SearchComponent implements OnInit {
     private location: Location,
     private searchApiService: SearchApiService,
     private searchHistoryService: SearchHistoryService,
+    private themeService: ThemeService,
   ) { }
 
 // #region handle search bar event, open the first page of query result
@@ -116,6 +120,14 @@ write page number into route param
     if (window.confirm('Are you sure you want to clear search history?')) {
       this.searchHistoryService.clearSearchHistory();
     }
+  }
+// #endregion
+
+// #region theme
+  theme$: Observable<Theme> = this.themeService.getTheme();
+  updateTheme(e: any) {
+    this.themeService.updateTheme(e.currentTarget.checked);
+    // this.theme$.pipe(first()).subscribe(data => console.log(data));
   }
 // #endregion
 
