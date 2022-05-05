@@ -20,13 +20,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`(HomeComponent) ngOnInit`);
+    console.log(this.route);
   }
 
 // #region handle search bar event, open the first page of query result
   onSearched(keyword: string) {
     if (keyword && keyword.trim()) {
       this.searchHistoryService.addSearchHistory(keyword.trim());
-      this.router.navigate(['search'], { queryParams: { keyword: keyword.trim() }});
+      // this.router.navigate(["search"], { queryParams: { keyword: keyword.trim() }});
+      this.router.navigate(["search"], { relativeTo: this.route, queryParams: { keyword: keyword.trim() } });
     } else {
       console.log(`(HomeComponent) nothing to do`)
     }

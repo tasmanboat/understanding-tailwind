@@ -9,10 +9,10 @@
   <div>search result ...</div>
 </div>
 -->
-<div class="bg-slate-500 h-full flex flex-col gap-4 py-4">
+<div class="bg-slate-200 h-full flex flex-col gap-4 py-4">
   <div class="w-[90vw] sm:w-[590px] place-self-center">
     <h4 class="text-3xl font-bold text-center my-2">
-      <a [routerLink]="['/']">hn search</a>
+      <a [routerLink]="['..']">hn search</a>
     </h4>
     <div class="mx-4"><app-search-bar (searched)="onSearched($event)" [keyword]="keyword"></app-search-bar></div>
   </div>
@@ -21,7 +21,7 @@
       <div class="grid grid-cols-1 divide-y divide-yellow-500">
         <div class="my-4 mx-4 flex">
           <p class="font-serif italic flex-auto place-self-center">{{ queryResult.nbHits }} hits found for {{ keyword }}</p>
-          <select class="select select-ghost w-full max-w-xs"
+          <select class="select select-ghost w-26 max-w-xs"
             (change)="updateSorting($event)">
             <option disabled selected>Sorting</option>
             <option value="pointDes">pointDes</option>

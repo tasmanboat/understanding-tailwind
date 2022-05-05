@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { SearchApiService } from '../../services/search-api.service';
 import { QueryResult } from '../../interfaces/query-result';
@@ -31,8 +31,9 @@ export class SearchComponent implements OnInit {
       this.keyword = keyword;
       this.searchHistoryService.addSearchHistory(keyword.trim());
       // this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
-      this.getQueryResult(this.keyword);
-      this.router.navigate(['search'], { queryParams: { keyword: keyword.trim() }});
+      this.queryResult$ = this.getQueryResult(this.keyword);
+      this.router.navigate(["."], { relativeTo: this.route, queryParams: { keyword: keyword.trim() }});
+      this.page = 1;
     } else {
       console.log(`(HomeComponent) nothing to do`)
     }
@@ -50,7 +51,7 @@ export class SearchComponent implements OnInit {
     this.keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
     this.page = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
     // this.queryResult$ = this.searchApiService.getQueryResult(this.keyword.trim());
-    this.getQueryResult(this.keyword);
+    this.queryResult$ = this.getQueryResult(this.keyword);
     console.log(`(SearchComponent) ngOnInit`);
   }
   keyword: string = '';
@@ -58,12 +59,12 @@ export class SearchComponent implements OnInit {
 
 // #region pagination
 /*
-write page data into route param
+write page number into route param
 */
   // page: number = 1;
   set page(page: number) {
     this._page = page;
-    this.router.navigate(['search'], { queryParams: { keyword: this.keyword.trim(), page: this.page }});
+    this.router.navigate(["."], { relativeTo: this.route, queryParams: { keyword: this.keyword.trim(), page: this.page }});
   }
   get page(): number { return this._page }
   private _page: number = 1;
@@ -78,9 +79,9 @@ write page data into route param
     console.log(e.target.value);
     this.sorting$.next(e.target.value as Sorting);
   }
-  private getQueryResult(keyword: string) {
+  private getQueryResult(keyword: string): Observable<QueryResult> {
     // this.queryResult$ = this.searchApiService.getQueryResult(keyword.trim());
-    this.queryResult$ = this.sorting$.pipe(
+    return this.sorting$.pipe(
       switchMap((sorting: Sorting) => {
         return this.searchApiService.getQueryResult(keyword.trim()).pipe(
           map((qr: QueryResult) => {
