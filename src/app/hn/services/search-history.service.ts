@@ -44,12 +44,13 @@ export class SearchHistoryService {
 
 // #region load data from local storage
   private async init() {
-    // await this.pss.removeItemAsync("hn-search-history");
+    //// await this.pss.removeItemAsync("hn-search-history");
     this.searchHistory$.next([]);
     const data = await this.pss.getItemAsync("hn-search-history") as string | null;
     this.searchHistory = data ? JSON.parse(data) : [];
-    // this.searchHistory = data ? JSON.parse(data) : SEARCH_HISTORY;
+    // this.searchHistory = (data && JSON.parse(data)?.length > 0) ? JSON.parse(data) : SEARCH_HISTORY;
     this.searchHistory$.next(this.searchHistory);
+    this.performSideEffect();
   }
 // #endregion
 
