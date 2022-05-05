@@ -13,7 +13,7 @@ export class SearchHistoryService {
   private searchHistory: HistoryItem[] = SEARCH_HISTORY;
   private searchHistory$: BehaviorSubject<HistoryItem[]> = new BehaviorSubject<HistoryItem[]>(this.searchHistory);
   constructor(private pss: PersistentStorageService) {
-    this.load();
+    this.init();
   }
 
   addSearchHistory(keyword: string): void {
@@ -43,7 +43,7 @@ export class SearchHistoryService {
   }
 
 // #region load data from local storage
-  private async load() {
+  private async init() {
     // await this.pss.removeItemAsync("hn-search-history");
     this.searchHistory$.next([]);
     const data = await this.pss.getItemAsync("hn-search-history") as string | null;
