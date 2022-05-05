@@ -8,13 +8,15 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { SearchComponent } from './components/search/search.component';
 import { HomeComponent } from './components/home/home.component';
 import { HitComponent } from './components/hit/hit.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
     SearchBarComponent,
     SearchComponent,
     HomeComponent,
-    HitComponent
+    HitComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
