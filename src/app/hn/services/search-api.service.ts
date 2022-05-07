@@ -48,7 +48,7 @@ export class SearchApiService {
   private getHits(arr: any): Hit[] {
     let hits: Hit[] = [];
     arr.forEach((item: any) => {
-      if (item !== undefined && item.title && item.url) {
+      if (item?.title && item?.url) {
         const obj: Hit = {
           title: item.title,
           url: item.url,

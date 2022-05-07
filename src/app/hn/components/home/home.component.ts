@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
 // #region handle search bar event, open the first page of query result
   onSearched(keyword: string) {
-    if (keyword && keyword.trim()) {
+    if (keyword?.trim()) {
       this.searchHistoryService.addSearchHistory(keyword.trim());
       // this.router.navigate(["search"], { queryParams: { keyword: keyword.trim() }});
       this.router.navigate(["search"], { relativeTo: this.route, queryParams: { keyword: keyword.trim() } });
