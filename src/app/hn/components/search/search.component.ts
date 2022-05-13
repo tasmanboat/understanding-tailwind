@@ -53,7 +53,9 @@ export class SearchComponent implements OnInit {
 // #region load the component when page refreshes, handling route param
   ngOnInit(): void {
     this.keyword = this.route.snapshot.queryParamMap.get('keyword') ?? 'today';
-    this.page = Number(this.route.snapshot.queryParamMap.get('page') ?? '1'); // effect1: to read the query param on any page
+    this.page = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
+    // effect effects
+    // effect1: to read the query param on any page
     // effect2: to add the query param to the first page
 
     // this.queryResult$ = this.searchApiService.getQueryResult(this.keyword.trim());
