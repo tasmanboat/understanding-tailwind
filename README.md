@@ -4,8 +4,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ```
 ng new app --skip-git
-修改并添加 gitignore
-修改并添加 angular 所有文件
 github understanding-tailwind
 
 tailwind
